@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__ . '/config.php');
-require_once(__DIR__ . '/Quiz.php');
 
 $quiz = new MyApp\Quiz();
 
@@ -16,7 +15,7 @@ if (!$quiz->isFinished()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./quiz/style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>クイズ</title>
 </head>
 <body>
@@ -38,9 +37,10 @@ if (!$quiz->isFinished()) {
             <?php endforeach; ?>
             </ul>
             <div id="btn" class="disabled"><?= $quiz->isLast() ? 'Show Result' : 'Next Question' ?></div>
+            <input type="hidden" id="token" value="<?= h($_SESSION['token']); ?>">
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="./quiz/quiz.js"></script>
+        <script src="./quiz.js"></script>
     <?php endif ; ?>
 </body>
 </html>

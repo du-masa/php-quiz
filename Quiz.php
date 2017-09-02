@@ -6,11 +6,17 @@ class Quiz {
     private $_quizSet = [];
     public function __construct() {
 
-        if (!isset($_SESSION['current_num'])) {
-            $_SESSION['current_num'] = 0;
-            $_SESSION['currect_count'] = 0;
-        }
         $this->_setUp();
+        Token::create();
+
+        if (!isset($_SESSION['current_num'])) {
+            $this->initSession();
+        }
+    }
+
+    private function initSession() {
+        $_SESSION['current_num'] = 0;
+        $_SESSION['current_count'] = 0;
     }
 
     private function _setUp() {
@@ -29,8 +35,11 @@ class Quiz {
     }
 
     public function checkAnswer() {
+        Token:: validate('token');
         $correctAnswer = $this->_quizSet[$_SESSION['current_num']]['a'][0];
-
+        if (!isset($_POST['answer'])) {
+            throw new \Exception('answer not set!');
+        }
         if ($correctAnswer === $_POST['answer']) {
             $_SESSION['currect_count']++;
         }
@@ -51,8 +60,7 @@ class Quiz {
     }
 
     public function reset() {
-        $_SESSION['current_num'] = 0;
-        $_SESSION['currect_count'] = 0;
+        $this->initSession();
     }
 
     public function getCurrentQuiz() {
